@@ -3,9 +3,15 @@ const getAllWainWrights = async () => {
     const data = await response.json();
     
     populateWainWrightsList(data);
+    addForm(); 
 };
 
-const populateWainWrightsList = async (data) => {
+// Invoked when the form button is submitted
+
+
+
+// populating the Wainwrights list
+const populateWainWrightsList = (data) => {
     const wainWrightsList = document.querySelector("#wainwrights-list");
     const wainwrightsResponse = data;
 
@@ -15,6 +21,7 @@ const populateWainWrightsList = async (data) => {
         const wainwrightsElementName = document.createElement("p");
         const wainwrightsElementHeight = document.createElement("p");
         const wainwrightsElementArea = document.createElement("p");
+        const divider = document.createElement("hr");
         
         wainwrightsElementName.innerText = `${element["name"]}`;
         wainwrightsElement.appendChild(wainwrightsElementName);
@@ -26,8 +33,38 @@ const populateWainWrightsList = async (data) => {
         wainwrightsElement.appendChild(wainwrightsElementArea);
 
         wainWrightsList.appendChild(wainwrightsElement);
+        wainWrightsList.appendChild(divider);
     });
 };
+
+
+
+// adding a form
+const addForm = () => {
+    const simpleForm = document.createElement("form");
+    simpleForm.action = "";
+    simpleForm.id = "simple-form";
+
+    const formInput = document.createElement("input");
+    formInput.type = "text";
+    formInput.placeholder = "Search for Wainwrights";
+    formInput.id = "form-input";
+    simpleForm.appendChild(formInput);
+
+    const formButton = document.createElement("button");
+    formButton.type = "submit";
+    formButton.id = "form-button";
+    formButton.innerText = "Search!";
+    simpleForm.appendChild(formButton);
+
+    const formContainer = document.querySelector("body");
+    const reference = document.querySelector("#wainwrightsContainer")
+    formContainer.insertBefore(simpleForm, reference);
+
+    const divider = document.createElement("hr");
+    formContainer.insertBefore(divider, reference);
+}
+
 
 
 console.log(getAllWainWrights());
