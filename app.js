@@ -66,11 +66,14 @@ const addForm = () => {
     simpleForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        inputValue = event.target["form-input"].value;
-        console.log(inputValue);
-        // todo: logic to search 
+        submitForm(event);
     });
 }
+
+const submitForm = (event) => {
+    inputValue = event.target["form-input"].value;
+    console.log(inputValue);
+};
 
 
 
