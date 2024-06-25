@@ -3,7 +3,7 @@ const getAllWainWrights = async () => {
     const data = await response.json();
     
     populateWainWrightsList(data);
-    addForm(); 
+    return data;
 };
 
 
@@ -21,7 +21,7 @@ const populateWainWrightsList = (data) => {
         const wainwrightsElementArea = document.createElement("p");
         const divider = document.createElement("hr");
         
-        wainwrightsElementName.innerText = `${element["name"]}`;
+        wainwrightsElementName.innerText = `name: ${element["name"]}`;
         wainwrightsElement.appendChild(wainwrightsElementName);
 
         wainwrightsElementHeight.innerText = `height: ${element["heightFeet"]}feet`;
@@ -62,19 +62,40 @@ const addForm = () => {
     const divider = document.createElement("hr");
     formContainer.insertBefore(divider, reference);
 
-
+    
     simpleForm.addEventListener("submit", (event) => {
         event.preventDefault();
-
         submitForm(event);
     });
 }
 
-const submitForm = (event) => {
+
+
+const submitForm = async (event) => {
     inputValue = event.target["form-input"].value;
-    console.log(inputValue);
+    if (inputValue == "" ){
+        return;
+    } else{
+        const filteredData = await filterWainWrights(inputValue);
+        if (!filteredData.length == 0) {
+            const list = document.querySelector("#wainwrights-list");
+            list.innerText = "";
+            populateWainWrightsList(filteredData);
+        } 
+    }
+
 };
 
 
 
-console.log(getAllWainWrights());
+// Filtering
+const filterWainWrights = async (input) => {
+    apiData = await getAllWainWrights();
+    const result = apiData.filter((element) => element["name"].toLowerCase().includes(input.toLowerCase()));
+    return result;
+}
+
+
+
+getAllWainWrights();
+addForm();
