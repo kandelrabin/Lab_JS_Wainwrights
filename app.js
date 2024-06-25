@@ -1,6 +1,16 @@
 const getAllWainWrights = async () => {
+    addDynamicHeading("Awating API..", "#wainwrights-list");
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     const response = await fetch("https://raw.githubusercontent.com/annahndr/annahndr.github.io/master/wainwrights_data/wainwrights.json");
     const data = await response.json();
+
+    try{
+        const dynamicHeading = document.querySelector("#wainwrightsContainer p");
+        dynamicHeading.parentNode.removeChild(dynamicHeading);
+    } catch (error) {
+        console.log("Error removing the api dynamic heading: ", error);
+    }
     
     populateWainWrightsList(data);
     return data;
@@ -77,9 +87,9 @@ const submitForm = async (event) => {
         return;
     } else{
         const filteredData = await filterWainWrights(inputValue);
+        const list = document.querySelector("#wainwrights-list");
+        list.innerText = "";
         if (!filteredData.length == 0) {
-            const list = document.querySelector("#wainwrights-list");
-            list.innerText = "";
             populateWainWrightsList(filteredData);
         } 
     }
@@ -91,8 +101,33 @@ const submitForm = async (event) => {
 // Filtering
 const filterWainWrights = async (input) => {
     apiData = await getAllWainWrights();
+
+    addDynamicHeading("Filtering..", "#wainwrights-list");
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     const result = apiData.filter((element) => element["name"].toLowerCase().includes(input.toLowerCase()));
+
+    try{
+        const dynamicHeading = document.querySelector("#wainwrightsContainer p");
+        dynamicHeading.parentNode.removeChild(dynamicHeading);
+    } catch (error) {
+        console.log("Error removing the filtering dynamic heading: ", error);
+    }
+
     return result;
+}
+
+
+
+const addDynamicHeading = (headingText, containerId) =>{
+    const heading = document.createElement("p");
+    heading.innerText = headingText;
+
+    const container = document.querySelector(containerId);
+    const parent = container.parentNode;
+
+    container.innerText = "";
+    parent.insertBefore(heading, container);
 }
 
 
