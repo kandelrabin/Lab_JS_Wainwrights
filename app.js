@@ -1,12 +1,13 @@
-const fetchAllWainWrights = async () => {
+const getAllWainWrights = async () => {
     const response = await fetch("https://raw.githubusercontent.com/annahndr/annahndr.github.io/master/wainwrights_data/wainwrights.json");
     const data = await response.json();
-    return data;
-}
+    
+    populateWainWrightsList(data);
+};
 
-const populateWainWrightsList = async () => {
+const populateWainWrightsList = async (data) => {
     const wainWrightsList = document.querySelector("#wainwrights-list");
-    const wainwrightsResponse = await fetchAllWainWrights();
+    const wainwrightsResponse = data;
 
 
     wainwrightsResponse.forEach((element) => {
@@ -29,5 +30,4 @@ const populateWainWrightsList = async () => {
 };
 
 
-console.log(fetchAllWainWrights());
-console.log(populateWainWrightsList());
+console.log(getAllWainWrights());
