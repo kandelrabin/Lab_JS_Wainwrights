@@ -6,8 +6,6 @@ const getAllWainWrights = async () => {
     addForm(); 
 };
 
-// Invoked when the form button is submitted
-
 
 
 // populating the Wainwrights list
@@ -63,6 +61,15 @@ const addForm = () => {
 
     const divider = document.createElement("hr");
     formContainer.insertBefore(divider, reference);
+
+
+    simpleForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        inputValue = event.target["form-input"].value;
+        console.log(inputValue);
+        // todo: logic to search 
+    });
 }
 
 
